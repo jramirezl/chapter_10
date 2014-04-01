@@ -29,6 +29,10 @@ class User < ActiveRecord::Base
   after_validation { self.errors.messages.delete(:password_digest) }
 
 
+  def feed
+    microposts
+  end
+
   private
 
   def create_remember_token

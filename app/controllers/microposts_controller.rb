@@ -10,10 +10,21 @@ class MicropostsController < ApplicationController
       flash[:success] = "Micropost created!"
       redirect_to root_url
     else
+      @feed_items = []
       render 'static_pages/home'
     end
   end
 
   def destroy
+    @micropost = Micropost.find(params[:id]) #added def'n for @micropost
+    @micropost.destroy
+    redirect_back_or root_path
+  end
+
+  private
+
+  def correct_user
+    @micropost = current_user.microposts.find_by_id(params[:id])
+    redirect_to root_url if @micropost.nil?
   end
 end
