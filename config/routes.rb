@@ -1,5 +1,6 @@
 Chapter3::Application.routes.draw do
 
+  resources :microposts, only: [:create, :destroy]
   resources :users
   root to: 'static_pages#home'
 
