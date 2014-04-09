@@ -34,6 +34,30 @@ describe "Static pages" do
     end
   end
 
+  describe "micropost pagination and count" do
+    let(:user) { FactoryGirl.create(:user) }
+
+    describe "test pluralization with single" do
+      before { visit root_path }
+      it { should_not have_selector('span',    text: "microposts") }
+      it { page.should_not have_selector('div.pagination') }
+
+    end
+
+    describe "test pluralization with 31 and pagination" do
+      before do
+        31.times { FactoryGirl.create(:micropost, user: user) }
+        sign_in user
+        visit root_path
+      end
+      it { should have_selector('span',    text: "31") }
+      it { should have_selector('span',    text: "microposts") }
+      it { page.should have_selector('div.pagination') }
+
+    end
+
+  end
+
   describe "Help page" do
     before { visit help_path }
     let(:heading)    { 'sample app' }

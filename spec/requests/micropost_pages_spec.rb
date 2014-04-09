@@ -5,6 +5,9 @@ describe "Micropost pages" do
   subject { page }
 
   let(:user) { FactoryGirl.create(:user) }
+  let(:user1) { FactoryGirl.create(:user) }
+  let(:user2) { FactoryGirl.create(:user) }
+
   before { sign_in user }
 
   describe "micropost creation" do
@@ -22,6 +25,9 @@ describe "Micropost pages" do
       end
     end
 
+
+
+
     describe "with valid information" do
 
       before { fill_in 'micropost_content', with: "Lorem ipsum" }
@@ -30,6 +36,9 @@ describe "Micropost pages" do
       end
     end
   end
+
+
+
   describe "micropost destruction" do
     before { FactoryGirl.create(:micropost, user: user) }
 
@@ -41,4 +50,21 @@ describe "Micropost pages" do
       end
     end
   end
+
+  describe "micropost delete option" do
+
+
+      before do
+        FactoryGirl.create(:micropost, user: user1, content: "Lorem ipsum")
+        sign_in user2
+        visit root_path
+      end
+
+
+    describe "as correct user" do
+
+      it { should_not have_selector("a",  text: "delete") }
+    end
+  end
+
 end
